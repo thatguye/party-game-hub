@@ -1,0 +1,6 @@
+{
+  "name": "Chooser",
+  "description": "Minimalist multi-touch finger-chooser party game for iOS and web.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

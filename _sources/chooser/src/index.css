@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@layer base {
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #07070A;
+    color: #F7F7FA;
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    overscroll-behavior: none;
+    overflow: hidden;
+    position: fixed;
+    inset: 0;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+@keyframes ambient-breathe {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.96);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.04);
+    opacity: 0.68;
+  }
+}
+
+.ambient-ring-slow {
+  animation: ambient-breathe 5.6s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.ambient-ring-offset {
+  animation: ambient-breathe 5.6s cubic-bezier(0.37, 0, 0.63, 1) -2.8s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-ring-slow,
+  .ambient-ring-offset {
+    animation: none;
+  }
+}

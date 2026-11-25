@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1A1B26"/>
+      <stop offset="100%" stop-color="#09090E"/>
+    </radialGradient>
+    <linearGradient id="hoodRim" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#B6C0D4"/>
+      <stop offset="60%" stop-color="#565E72"/>
+      <stop offset="100%" stop-color="#222533"/>
+    </linearGradient>
+    <linearGradient id="hoodBody" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#2E3242"/>
+      <stop offset="55%" stop-color="#171923"/>
+      <stop offset="100%" stop-color="#0B0C12"/>
+    </linearGradient>
+    <filter id="eyeGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Shoulders / Cloak Base -->
+  <path d="M84 426C116 376 176 350 256 350C336 350 396 376 428 426V452H84V426Z" fill="#13151E"/>
+  <path d="M90 422C122 378 176 356 256 356C336 356 390 378 422 422" stroke="#4D5466" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- Outer Hood Silhouette -->
+  <path d="M256 76C174 76 116 154 106 258C101 312 128 362 178 394C202 410 228 418 256 418C284 418 310 410 334 394C384 362 411 312 406 258C396 154 338 76 256 76Z" fill="url(#hoodBody)" stroke="url(#hoodRim)" stroke-width="10"/>
+
+  <!-- Deep Shadowed Face Opening -->
+  <path d="M256 146C198 146 152 204 150 278C149 332 192 384 256 388C320 384 363 332 362 278C360 204 314 146 256 146Z" fill="#050508"/>
+  <path d="M256 146C198 146 152 204 150 278C149 332 192 384 256 388C320 384 363 332 362 278C360 204 314 146 256 146Z" stroke="#6B7388" stroke-opacity="0.38" stroke-width="4"/>
+
+  <!-- Subtle Glowing Pale-White Eyes -->
+  <g filter="url(#eyeGlow)">
+    <path d="M188 242C206 242 224 250 234 261C217 265 198 259 188 242Z" fill="#F1F5F9"/>
+    <path d="M324 242C306 242 288 250 278 261C295 265 314 259 324 242Z" fill="#F1F5F9"/>
+  </g>
+</svg>

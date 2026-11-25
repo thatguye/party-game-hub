@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Finders Keepers icon with two white figures running left">
+  <defs>
+    <!-- Rich obsidian-carbon matte backdrop (full-bleed opaque for iOS/Android squircle & maskable icons) -->
+    <radialGradient id="fk-bg" cx="50%" cy="44%" r="74%">
+      <stop offset="0%" stop-color="#1E1D1C" />
+      <stop offset="56%" stop-color="#0D0D0F" />
+      <stop offset="100%" stop-color="#030304" />
+    </radialGradient>
+
+    <!-- Warm vermilion radar backlight behind the pursuit -->
+    <radialGradient id="fk-radar-glow" cx="64%" cy="44%" r="50%">
+      <stop offset="0%" stop-color="#EA3419" stop-opacity="0.34" />
+      <stop offset="50%" stop-color="#EA3419" stop-opacity="0.10" />
+      <stop offset="100%" stop-color="#EA3419" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Cool subtle highlight on the escape side (left) for depth separation -->
+    <radialGradient id="fk-escape-glow" cx="28%" cy="48%" r="42%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Tactical radar sweep cone illuminating the pursuing chaser -->
+    <linearGradient id="fk-sweep" x1="88%" y1="10%" x2="26%" y2="80%">
+      <stop offset="0%" stop-color="#FF5436" stop-opacity="0.44" />
+      <stop offset="52%" stop-color="#EA3419" stop-opacity="0.14" />
+      <stop offset="100%" stop-color="#EA3419" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Soft drop shadow & subtle lift so the crisp white figures pop off the radar -->
+    <filter id="fk-lift" x="-14%" y="-14%" width="128%" height="128%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000000" flood-opacity="0.72" />
+    </filter>
+  </defs>
+
+  <!-- Full-bleed dark matte canvas -->
+  <rect width="512" height="512" fill="url(#fk-bg)" />
+  <rect width="512" height="512" fill="url(#fk-radar-glow)" />
+  <rect width="512" height="512" fill="url(#fk-escape-glow)" />
+
+  <!-- Tactical Radar Rings, Ticks & Sweep Cone -->
+  <g fill="none" stroke-linecap="round">
+    <circle cx="256" cy="256" r="212" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="2" />
+    <circle cx="256" cy="256" r="154" stroke="#FFFFFF" stroke-opacity="0.11" stroke-width="2" stroke-dasharray="6 10" />
+    <circle cx="256" cy="256" r="94" stroke="#EA3419" stroke-opacity="0.28" stroke-width="2" />
+
+    <!-- Radar sweep cone (leading edge aligns cleanly with the vermilion target ping) -->
+    <path d="M 256 256 L 372 80 A 212 212 0 0 1 464 294 Z" fill="url(#fk-sweep)" />
+    <line x1="256" y1="256" x2="372" y2="80" stroke="#FF5436" stroke-opacity="0.42" stroke-width="2.5" />
+
+    <!-- Precision cardinal crosshair ticks -->
+    <line x1="256" y1="30" x2="256" y2="52" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="3" />
+    <line x1="256" y1="460" x2="256" y2="482" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="3" />
+    <line x1="30" y1="256" x2="52" y2="256" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="3" />
+    <line x1="460" y1="256" x2="482" y2="256" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="3" />
+  </g>
+
+  <!-- Subtle Ground Contact Shadows -->
+  <ellipse cx="152" cy="378" rx="64" ry="7" fill="#000000" fill-opacity="0.62" />
+  <ellipse cx="348" cy="378" rx="66" ry="7" fill="#000000" fill-opacity="0.62" />
+
+  <!-- Two Sleek Athletic White Sprinting Figures Running Left (Clearly Separated, Reference-Faithful) -->
+  <g
+    transform="translate(256 256) scale(0.94) translate(-266 -253)"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="14.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#fk-lift)"
+  >
+    <!-- FIGURE 1: Escaping Runner (Front / Left — full sprint left) -->
+    <g>
+      <!-- Sleek hollow circle head -->
+      <circle cx="132" cy="176" r="26" />
+      <!-- Forward-leaning athletic torso -->
+      <path d="M 148 206 Q 162 238 176 270" />
+      <!-- Front arm bent & pumping sharply forward-left -->
+      <path d="M 148 206 L 114 238 L 86 202" />
+      <!-- Back arm driving back-right -->
+      <path d="M 148 206 L 188 214 L 218 236" />
+      <!-- Front leg striding long forward-left with crisp toe tick -->
+      <path d="M 176 270 L 134 312 L 102 360 L 86 350" />
+      <!-- Back leg kicked up behind-right with crisp toe tick -->
+      <path d="M 176 270 L 210 314 L 244 286 L 250 299" />
+    </g>
+
+    <!-- FIGURE 2: Pursuing Chaser (Back / Right — leaning hard into the chase left, clearly separated) -->
+    <g>
+      <!-- Sleek hollow circle head -->
+      <circle cx="326" cy="174" r="26" />
+      <!-- Aggressive forward-leaning chase torso -->
+      <path d="M 342 204 Q 358 238 374 268" />
+      <!-- Front arm driving/reaching forward-left (56px clean air gap from Figure 1) -->
+      <path d="M 342 204 L 304 228 L 274 200" />
+      <!-- Back arm driving back-right in sprint form -->
+      <path d="M 342 204 L 382 214 L 414 236" />
+      <!-- Front leg lunging forward-left with crisp toe tick -->
+      <path d="M 374 268 L 328 308 L 298 358 L 282 349" />
+      <!-- Back leg pushing off behind-right with crisp toe tick -->
+      <path d="M 374 268 L 408 312 L 442 284 L 448 297" />
+    </g>
+  </g>
+
+  <!-- Crisp Vermilion Radar Lock Ping on the Leading Sweep Edge -->
+  <circle cx="362" cy="96" r="22" fill="none" stroke="#EA3419" stroke-opacity="0.42" stroke-width="3" />
+  <circle cx="362" cy="96" r="10.5" fill="#EA3419" />
+  <circle cx="360" cy="94" r="3.5" fill="#FF8C73" />
+</svg>

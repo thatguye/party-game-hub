@@ -1,0 +1,447 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --bg-canvas: #0b0917;
+  --bg-surface: #14141f;
+  --bg-surface-elevated: #1c1c2b;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --accent-civilian: #22d3ee;
+  --accent-impostor: #f43f5e;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    background-color: #0b0917;
+    color: #f5f5fa;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+
+  button,
+  a,
+  input,
+  select {
+    touch-action: manipulation;
+  }
+}
+
+/* ============================================================================
+   PER-GAME SCOPED TYPOGRAPHY & INTERACTION ISOLATION (ZERO COLLISIONS)
+   ============================================================================ */
+
+/* Chooser: isolated full-screen multi-touch lock strictly inside .chooser-root */
+.chooser-root {
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #07070a;
+  color: #f7f7fa;
+  overflow: hidden;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.chooser-root * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Impostor: Plus Jakarta Sans headings + DM Sans body */
+.game-impostor {
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font-sans);
+  background-color: #09090e;
+  color: #f4f4f8;
+}
+
+.game-impostor h1,
+.game-impostor h2,
+.game-impostor h3,
+.game-impostor .font-display {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+/* Finders Keepers: Barlow Condensed tactical display + Plus Jakarta Sans UI */
+.game-fk {
+  --font-display: "Barlow Condensed", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-sans);
+  background-color: #08090e;
+  color: #f4f5f9;
+}
+
+.game-fk .font-display {
+  font-family: var(--font-display);
+}
+
+/* ============================================================================
+   SHARED SAFE-AREA & SCROLLBAR UTILITIES
+   ============================================================================ */
+
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top, 0px), 0px);
+}
+
+.game-fk .pt-safe {
+  padding-top: max(env(safe-area-inset-top, 0px), 10px);
+}
+
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px);
+}
+
+.game-fk .pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
+}
+
+.pb-safe-tight {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 0px);
+}
+
+.px-safe {
+  padding-left: max(env(safe-area-inset-left, 0px), 16px);
+  padding-right: max(env(safe-area-inset-right, 0px), 16px);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+/* ============================================================================
+   CHOOSER AMBIENT RINGS
+   ============================================================================ */
+
+@keyframes ambient-breathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.96);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.04);
+    opacity: 0.68;
+  }
+}
+
+.ambient-ring-slow {
+  animation: ambient-breathe 5.6s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.ambient-ring-offset {
+  animation: ambient-breathe 5.6s cubic-bezier(0.37, 0, 0.63, 1) -2.8s infinite;
+}
+
+/* ============================================================================
+   IMPOSTOR 3D CARD FLIP & PRIVACY REVEAL LOCK
+   ============================================================================ */
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.card-flip-inner {
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+html.scroll-locked,
+body.scroll-locked {
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+.no-select-touch {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
+}
+
+/* ============================================================================
+   FINDERS KEEPERS TACTICAL MAP, SLIDERS & ANIMATIONS
+   ============================================================================ */
+
+.leaflet-container {
+  background: #0b0d14;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  transition: background-color 220ms ease;
+}
+
+.fk-map-night .leaflet-container {
+  background: #14171f;
+}
+
+.fk-map-night .leaflet-tile-pane {
+  filter: brightness(92%) contrast(108%);
+}
+
+.fk-map-standard .leaflet-container {
+  background: #e9edf2;
+}
+
+.fk-map-satellite .leaflet-container {
+  background: #0c141a;
+}
+
+.fk-map-satellite .leaflet-tile-pane {
+  filter: contrast(106%) saturate(108%);
+}
+
+.fk-map-snow .leaflet-container {
+  background: #f1f5f9;
+}
+
+.fk-map-snow .leaflet-tile-pane {
+  filter: brightness(105%) contrast(108%) saturate(35%);
+}
+
+.leaflet-control-attribution {
+  background: rgba(9, 9, 14, 0.72) !important;
+  color: rgba(161, 165, 184, 0.78) !important;
+  font-size: 9px !important;
+  padding: 1px 6px !important;
+  border-top-left-radius: 6px;
+}
+
+.leaflet-control-attribution a {
+  color: rgba(203, 213, 225, 0.9) !important;
+}
+
+.fk-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: #1d2233;
+  outline: none;
+}
+
+.fk-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #10b981;
+  border: 3px solid #09090e;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.45);
+  cursor: pointer;
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fk-slider::-webkit-slider-thumb:active {
+  transform: scale(1.16);
+}
+
+.fk-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #10b981;
+  border: 3px solid #09090e;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.45);
+  cursor: pointer;
+}
+
+@keyframes fkRadarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fk-radar-sweep {
+  background: conic-gradient(
+    from 0deg,
+    rgba(16, 185, 129, 0) 0deg,
+    rgba(16, 185, 129, 0) 275deg,
+    rgba(16, 185, 129, 0.14) 348deg,
+    rgba(52, 211, 153, 0.32) 360deg
+  );
+  animation: fkRadarSweep 12s linear infinite;
+  will-change: transform;
+}
+
+@keyframes fkPingRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.45);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.8);
+    opacity: 0;
+  }
+}
+
+.fk-ping-ripple {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  border: 2px solid #22d3ee;
+  animation: fkPingRipple 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes fkBeaconPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.15);
+    opacity: 0;
+  }
+}
+
+.fk-player-pulse {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  animation: fkBeaconPulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes fkRadioRing {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.65;
+  }
+  100% {
+    transform: scale(1.12, 1.38);
+    opacity: 0;
+  }
+}
+
+.fk-radio-ring {
+  animation: fkRadioRing 1.15s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.fk-ptt-btn {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+
+@keyframes prestigeShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.fk-prestige-badge {
+  background-image: linear-gradient(
+    110deg,
+    rgba(245, 158, 11, 0.14) 20%,
+    rgba(251, 191, 36, 0.36) 45%,
+    rgba(16, 185, 129, 0.2) 70%,
+    rgba(245, 158, 11, 0.14) 95%
+  );
+  background-size: 220% 100%;
+  animation: prestigeShimmer 4.2s linear infinite;
+}
+
+@keyframes edgeFlash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fk-edge-flash {
+  animation: edgeFlash 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-ring-slow,
+  .ambient-ring-offset,
+  .fk-radar-sweep,
+  .fk-ping-ripple,
+  .fk-player-pulse,
+  .fk-radio-ring,
+  .fk-prestige-badge {
+    animation: none;
+  }
+
+  .card-flip-inner {
+    transition-duration: 0.05s;
+  }
+}

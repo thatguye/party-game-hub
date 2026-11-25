@@ -1,0 +1,6 @@
+{
+  "name": "Finders Keepers",
+  "description": "Tactical real-world GPS manhunt and hide-and-seek PWA with asymmetrical fog-of-war, custom polygon arenas, team walkie-talkie, and post-round GPS trail posters.",
+  "requestFramePermissions": ["geolocation", "microphone", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
